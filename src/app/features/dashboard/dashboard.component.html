@@ -1,0 +1,69 @@
+<header class="tui-space_bottom-8">
+    <h1 class="tui-text_h3">Risu</h1>
+    <p class="tui-text_body-m-2">Управление вашими подписками</p>
+</header>
+
+<div class="stats-grid">
+    <div class="card">
+        <div class="card-label">Ежемесячный расход</div>
+        <div class="card-value">{{ store.totalMonthlyCost() | currency:'RUB':'symbol-narrow':'1.0-0' }}</div>
+    </div>
+    <div class="card">
+        <div class="card-label">Всего сервисов</div>
+        <div class="card-value">{{ store.items().length }}</div>
+    </div>
+</div>
+
+<section class="tui-space_top-10">
+    <h3 class="tui-text_h5 tui-space_bottom-4">Новая подписка</h3>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
+        
+        <tui-input formControlName="name" class="tui-space_bottom-4">
+            Название сервиса
+        </tui-input>
+
+        <tui-input-number formControlName="price" class="tui-space_bottom-4">
+            Стоимость
+        </tui-input-number>
+
+        <tui-select formControlName="category" class="tui-space_bottom-4">
+            Категория
+            <tui-data-list-wrapper *tuiDataList [items]="categories"></tui-data-list-wrapper>
+        </tui-select>
+
+        <button tuiButton type="submit" [disabled]="form.invalid">
+            Добавить
+        </button>
+    </form>
+</section>
+
+<section class="tui-space_top-10">
+    <h3 class="tui-text_h5 tui-space_bottom-4">Ваши подписки</h3>
+    <div class="subscriptions-list">
+        <div *ngFor="let sub of store.items()" class="sub-item" [class.inactive]="!sub.isActive">
+            <div class="sub-info">
+                <div class="sub-name">{{ sub.name }}</div>
+                <div class="sub-meta">{{ sub.category }}</div>
+            </div>
+            <div class="sub-price">{{ sub.price | currency:'RUB':'symbol-narrow':'1.0-0' }}</div>
+            <div class="sub-actions">
+                <button 
+                    tuiButton 
+                    type="button" 
+                    appearance="secondary" 
+                    size="s" 
+                    (click)="toggleSub(sub.id)">
+                    {{ sub.isActive ? 'Выключить' : 'Включить' }}
+                </button>
+                <button 
+                    tuiButton 
+                    type="button" 
+                    appearance="flat" 
+                    size="s" 
+                    (click)="deleteSub(sub.id)">
+                    Удалить
+                </button>
+            </div>
+        </div>
+    </div>
+</section>

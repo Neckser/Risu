@@ -1,0 +1,68 @@
+{
+  "name": "risu",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },
+  "private": true,
+  "packageManager": "npm@10.9.3",
+  "dependencies": {
+    "@angular/animations": "^21.2.10",
+    "@angular/cdk": "^21.2.8",
+    "@angular/common": "^21.1.0",
+    "@angular/compiler": "^21.1.0",
+    "@angular/core": "^21.1.0",
+    "@angular/forms": "^21.1.0",
+    "@angular/platform-browser": "^21.1.0",
+    "@angular/router": "^21.1.0",
+    "@ng-web-apis/common": "^5.2.0",
+    "@ng-web-apis/intersection-observer": "^5.2.0",
+    "@ng-web-apis/mutation-observer": "^5.2.0",
+    "@ng-web-apis/platform": "^5.2.0",
+    "@ng-web-apis/resize-observer": "^5.2.0",
+    "@ng-web-apis/screen-orientation": "^5.2.0",
+    "@ngrx/signals": "^21.1.0",
+    "@taiga-ui/addon-commerce": "^4.81.0",
+    "@taiga-ui/cdk": "^5.4.0",
+    "@taiga-ui/core": "^5.4.0",
+    "@taiga-ui/event-plugins": "^5.0.0",
+    "@taiga-ui/font-watcher": "^0.6.0",
+    "@taiga-ui/i18n": "^5.4.0",
+    "@taiga-ui/icons": "^5.4.0",
+    "@taiga-ui/kit": "^5.4.0",
+    "@taiga-ui/legacy": "^4.81.0",
+    "@taiga-ui/polymorpheus": "^5.0.0",
+    "@taiga-ui/styles": "^5.4.0",
+    "@tinkoff/ng-dompurify": "^4.0.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "^0.16.1"
+  },
+  "devDependencies": {
+    "@angular/build": "^21.1.5",
+    "@angular/cli": "^21.1.5",
+    "@angular/compiler-cli": "^21.1.0",
+    "@types/node": "^25.6.0",
+    "jsdom": "^27.1.0",
+    "less": "^4.6.4",
+    "less-loader": "^12.3.2",
+    "typescript": "~5.9.2",
+    "vitest": "^4.0.8"
+  }
+}
