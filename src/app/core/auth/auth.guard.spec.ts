@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Router, UrlTree } from '@angular/router';
-import { provideRouter } from '@angular/router';
+import { provideRouter, type GuardResult, Router } from '@angular/router';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { authGuard, guestGuard } from './auth.guard';
@@ -8,8 +7,6 @@ import { AuthStore } from './auth.store';
 
 const setAuth = (store: InstanceType<typeof AuthStore>, authed: boolean): void => {
   if (authed) {
-    // We have to bypass the typed patchState by going through a known method:
-    // restoreSession reads from localStorage, so we plant credentials there.
     localStorage.setItem('risu_auth_token', 'mock.token');
     localStorage.setItem(
       'risu_auth_user',
@@ -22,14 +19,10 @@ const setAuth = (store: InstanceType<typeof AuthStore>, authed: boolean): void =
   }
 };
 
-const runGuard = (
-  fn: typeof authGuard | typeof guestGuard,
-): boolean | UrlTree => {
-  return TestBed.runInInjectionContext(() =>
-    // route + state are unused by these guards; pass empty objects
+const runGuard = (fn: typeof authGuard | typeof guestGuard): GuardResult =>
+  TestBed.runInInjectionContext(() =>
     fn({} as never, { url: '/x' } as never),
-  );
-};
+  ) as GuardResult;
 
 describe('authGuard / guestGuard', () => {
   beforeEach(() => {

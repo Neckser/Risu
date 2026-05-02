@@ -19,7 +19,14 @@ describe('CategoryLabelPipe', () => {
     expect(pipe.transform('streaming', custom)).toBe('Custom streaming');
   });
 
-  it('returns id verbatim if not present in list', () => {
-    expect(pipe.transform('streaming', [])).toBe('streaming');
+  it('falls back to default categories when an empty list is provided (not yet loaded)', () => {
+    expect(pipe.transform('streaming', [])).toBe('Стриминг');
+  });
+
+  it('returns id verbatim when id is not present in the non-empty provided list', () => {
+    const list: Category[] = [
+      { id: 'gaming', label: 'Игры', icon: '@tui.gamepad-2', monthlyLimit: null },
+    ];
+    expect(pipe.transform('streaming', list)).toBe('streaming');
   });
 });

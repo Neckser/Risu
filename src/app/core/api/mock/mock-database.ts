@@ -124,9 +124,7 @@ export class MockDatabase {
           return parsed;
         }
       }
-    } catch {
-      // fall through to seed
-    }
+    } catch {}
     const seed = buildSeed();
     this.persist(seed);
     return seed;
@@ -135,9 +133,7 @@ export class MockDatabase {
   private persist(db: MockDb = this.db): void {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
-    } catch {
-      // ignore quota errors
-    }
+    } catch {}
   }
 
   reset(): void {
@@ -148,8 +144,6 @@ export class MockDatabase {
   hashPassword(password: string): string {
     return seedHash(password);
   }
-
-  // ---------- USERS ----------
 
   findUserByEmail(email: string): StoredUser | undefined {
     return this.db.users.find((u) => u.email.toLowerCase() === email.toLowerCase());
@@ -164,8 +158,6 @@ export class MockDatabase {
     this.db.categoriesByUser[user.id] = DEFAULT_CATEGORIES.map((c) => ({ ...c }));
     this.persist();
   }
-
-  // ---------- SUBSCRIPTIONS ----------
 
   listSubscriptions(userId: string): Subscription[] {
     return this.db.subscriptions.filter((s) => s.userId === userId);
@@ -199,8 +191,6 @@ export class MockDatabase {
     this.persist();
     return true;
   }
-
-  // ---------- CATEGORIES ----------
 
   listCategories(userId: string): Category[] {
     if (!this.db.categoriesByUser[userId]) {

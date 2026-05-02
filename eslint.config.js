@@ -1,4 +1,3 @@
-// @ts-check
 const eslint = require('@eslint/js');
 const tseslint = require('typescript-eslint');
 const angular = require('@angular-eslint/eslint-plugin');
@@ -29,6 +28,7 @@ module.exports = tseslint.config(
       '@typescript-eslint/explicit-member-accessibility': 'off',
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
+      'no-empty': ['error', { allowEmptyCatch: true }],
     },
   },
   {

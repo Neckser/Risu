@@ -34,7 +34,7 @@ describe('MockDatabase', () => {
 
   it('seeds demo user on first construction', () => {
     expect(db.findUserByEmail('demo@risu.app')).toBeDefined();
-    expect(db.findUserByEmail('DEMO@RISU.APP')).toBeDefined(); // case-insensitive
+    expect(db.findUserByEmail('DEMO@RISU.APP')).toBeDefined();
   });
 
   it('persists state to localStorage', () => {

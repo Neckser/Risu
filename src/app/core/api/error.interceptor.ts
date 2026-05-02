@@ -23,9 +23,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       if (err.status === 401 && !req.url.endsWith('/auth/login')) {
         try {
           localStorage.removeItem('risu_auth_token');
-        } catch {
-          // storage may be unavailable
-        }
+        } catch {}
         void router.navigate(['/auth/login']);
       } else {
         alerts.open(message, { appearance: 'negative', label: 'Ошибка' }).subscribe();

@@ -31,9 +31,7 @@ export class AuthService {
     try {
       localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
       localStorage.removeItem(AUTH_USER_STORAGE_KEY);
-    } catch {
-      // storage may be unavailable
-    }
+    } catch {}
   }
 
   loadStoredToken(): string | null {
@@ -57,8 +55,6 @@ export class AuthService {
     try {
       localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, res.token);
       localStorage.setItem(AUTH_USER_STORAGE_KEY, JSON.stringify(res.user));
-    } catch {
-      // ignore quota issues
-    }
+    } catch {}
   }
 }

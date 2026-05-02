@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { patchState } from '@ngrx/signals';
+import { unprotected } from '@ngrx/signals/testing';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { NotificationsService } from './notifications.service';
@@ -44,40 +45,34 @@ describe('NotificationsService.upcoming', () => {
     service = TestBed.inject(NotificationsService);
   });
 
+  const setItems = (items: Subscription[]): void => {
+    patchState(unprotected(store), { items });
+  };
+
   it('returns empty list for empty store', () => {
     expect(service.upcoming()).toEqual([]);
   });
 
   it('includes subscriptions due within notifyDaysBefore window', () => {
-    patchState(store, {
-      items: [
-        sub({ id: 'soon', nextPaymentDate: isoIn(2), notifyDaysBefore: 3 }),
-        sub({ id: 'later', nextPaymentDate: isoIn(10), notifyDaysBefore: 3 }),
-      ],
-    });
+    setItems([
+      sub({ id: 'soon', nextPaymentDate: isoIn(2), notifyDaysBefore: 3 }),
+      sub({ id: 'later', nextPaymentDate: isoIn(10), notifyDaysBefore: 3 }),
+    ]);
     const ids = service.upcoming().map((u) => u.subscriptionId);
     expect(ids).toEqual(['soon']);
   });
 
   it('excludes inactive subscriptions', () => {
-    patchState(store, {
-      items: [sub({ id: 'inactive', isActive: false, nextPaymentDate: isoIn(1) })],
-    });
+    setItems([sub({ id: 'inactive', isActive: false, nextPaymentDate: isoIn(1) })]);
     expect(service.upcoming()).toEqual([]);
   });
 
   it('sorts by daysLeft ascending', () => {
-    patchState(store, {
-      items: [
-        sub({ id: 'in-3', nextPaymentDate: isoIn(3), notifyDaysBefore: 5 }),
-        sub({ id: 'in-1', nextPaymentDate: isoIn(1), notifyDaysBefore: 5 }),
-        sub({ id: 'in-2', nextPaymentDate: isoIn(2), notifyDaysBefore: 5 }),
-      ],
-    });
-    expect(service.upcoming().map((u) => u.subscriptionId)).toEqual([
-      'in-1',
-      'in-2',
-      'in-3',
+    setItems([
+      sub({ id: 'in-3', nextPaymentDate: isoIn(3), notifyDaysBefore: 5 }),
+      sub({ id: 'in-1', nextPaymentDate: isoIn(1), notifyDaysBefore: 5 }),
+      sub({ id: 'in-2', nextPaymentDate: isoIn(2), notifyDaysBefore: 5 }),
     ]);
+    expect(service.upcoming().map((u) => u.subscriptionId)).toEqual(['in-1', 'in-2', 'in-3']);
   });
 });

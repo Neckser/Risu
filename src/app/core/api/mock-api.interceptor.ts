@@ -1,5 +1,4 @@
 import { HttpErrorResponse, HttpEvent, HttpInterceptorFn, HttpResponse } from '@angular/common/http';
-import { inject } from '@angular/core';
 import { Observable, defer, of, throwError } from 'rxjs';
 import { delay, mergeMap } from 'rxjs/operators';
 
@@ -57,12 +56,9 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
   }
 
-  inject; // keep DI ergonomics; not strictly needed
-
   const path = req.url.slice(API_BASE_URL.length);
   const auth = req.headers.get('Authorization');
 
-  // ---------- AUTH ----------
   if (path === '/auth/login' && req.method === 'POST') {
     const body = req.body as UserCredentials;
     if (!body?.email || !body?.password) return fail(400, 'Email и пароль обязательны');
@@ -104,7 +100,6 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
     );
   }
 
-  // ---------- SUBSCRIPTIONS ----------
   if (path === '/subscriptions' && req.method === 'GET') {
     return requireUserId(auth).pipe(
       mergeMap((userId) => ok(dbSingleton.listSubscriptions(userId))),
@@ -150,7 +145,6 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
     );
   }
 
-  // ---------- CATEGORIES ----------
   if (path === '/categories' && req.method === 'GET') {
     return requireUserId(auth).pipe(mergeMap((userId) => ok(dbSingleton.listCategories(userId))));
   }
