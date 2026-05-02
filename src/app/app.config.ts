@@ -6,7 +6,8 @@ import { provideRouter, withComponentInputBinding, withViewTransitions } from '@
 // eslint-disable-next-line @typescript-eslint/no-deprecated
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { provideTaiga } from '@taiga-ui/core';
+import { TuiAlertService, provideTaiga } from '@taiga-ui/core';
+import { TuiToastService } from '@taiga-ui/kit';
 import { provideEventPlugins } from '@taiga-ui/event-plugins';
 
 import { routes } from './app.routes';
@@ -26,5 +27,9 @@ export const appConfig: ApplicationConfig = {
       apis: 'stable',
     }),
     provideEventPlugins(),
+    // TuiAlertService is abstract; Taiga 5 provides TuiToastService (kit) as the
+    // concrete implementation. Alias the abstract token so consumers can inject
+    // TuiAlertService (e.g. error.interceptor) without depending on kit directly.
+    { provide: TuiAlertService, useExisting: TuiToastService },
   ],
 };

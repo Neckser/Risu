@@ -1,1 +1,118 @@
-body { background: white; }
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--tui-background-base, #fff);
+  color: var(--tui-text-primary, #1c1e21);
+  font-family: var(--tui-font-text, 'Manrope', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.5rem 1rem;
+  background: var(--tui-text-action, #5d3eff);
+  color: #fff;
+  text-decoration: none;
+  transform: translateY(-150%);
+  z-index: 1000;
+
+  &:focus {
+    transform: translateY(0);
+  }
+}
+
+// ---- Form primitives shared across the app ----
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.field__label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--tui-text-secondary, #5c6470);
+}
+
+.field__error {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--tui-status-negative, #c62828);
+}
+
+.field__input,
+.field__select,
+.field__textarea {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  font: inherit;
+  color: var(--tui-text-primary, #1c1e21);
+  background: var(--tui-background-base, #fff);
+  border: 1px solid var(--tui-border-normal, #d8dbe0);
+  border-radius: 0.5rem;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:focus {
+    border-color: var(--tui-text-action, #5d3eff);
+    box-shadow: 0 0 0 3px rgb(93 62 255 / 0.18);
+  }
+
+  &:disabled {
+    background: var(--tui-background-neutral-1, #f3f4f6);
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  &.ng-invalid.ng-touched {
+    border-color: var(--tui-status-negative, #c62828);
+  }
+}
+
+.field__textarea {
+  min-height: 5rem;
+  resize: vertical;
+}
+
+.field__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  @media (max-width: 540px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field__check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+
+  input {
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+    accent-color: var(--tui-text-action, #5d3eff);
+  }
+}

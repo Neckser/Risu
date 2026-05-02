@@ -1,0 +1,84 @@
+<app-page-header
+  title="Подписки"
+  [subtitle]="totalCount() + ' подписок всего, ' + items().length + ' в выдаче'"
+>
+  <a tuiButton routerLink="/subscriptions/new" size="m">
+    <tui-icon icon="@tui.plus" />
+    Добавить
+  </a>
+</app-page-header>
+
+<div class="filters">
+  <label class="field filters__search">
+    <span class="field__label">Поиск</span>
+    <input
+      class="field__input"
+      type="search"
+      placeholder="По названию"
+      [ngModel]="searchInput()"
+      (ngModelChange)="onSearch($event)"
+    />
+  </label>
+
+  <label class="field">
+    <span class="field__label">Категория</span>
+    <select
+      class="field__select"
+      [ngModel]="categoryInput()"
+      (ngModelChange)="onCategory($event)"
+    >
+      <option value="">Все категории</option>
+      @for (c of categories(); track c.id) {
+        <option [value]="c.id">{{ c.label }}</option>
+      }
+    </select>
+  </label>
+
+  <label class="field">
+    <span class="field__label">Статус</span>
+    <select
+      class="field__select"
+      [ngModel]="statusInput()"
+      (ngModelChange)="onStatus($event)"
+    >
+      <option value="all">Все</option>
+      <option value="active">Активные</option>
+      <option value="inactive">Неактивные</option>
+    </select>
+  </label>
+
+  <label class="field">
+    <span class="field__label">Сортировка</span>
+    <select class="field__select" [ngModel]="sortInput()" (ngModelChange)="onSort($event)">
+      @for (s of sortOptions; track s.value) {
+        <option [value]="s.value">{{ s.label }}</option>
+      }
+    </select>
+  </label>
+
+  <button tuiButton type="button" appearance="flat" size="m" (click)="reset()" class="filters__reset">
+    Сбросить
+  </button>
+</div>
+
+@if (loading() && !loaded()) {
+  <div class="state">Загрузка…</div>
+} @else if (items().length === 0) {
+  <div class="state">
+    <p>Подписок пока нет.</p>
+    <a tuiButton routerLink="/subscriptions/new" size="m">Добавить первую</a>
+  </div>
+} @else {
+  <ul class="list" aria-label="Список подписок">
+    @for (sub of items(); track sub.id) {
+      <li>
+        <app-subscription-card
+          [sub]="sub"
+          [categories]="categories()"
+          (toggle)="toggle($event)"
+          (remove)="remove($event)"
+        />
+      </li>
+    }
+  </ul>
+}

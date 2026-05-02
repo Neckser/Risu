@@ -1,0 +1,98 @@
+<app-page-header [title]="isEdit() ? 'Редактирование подписки' : 'Новая подписка'">
+  <button tuiButton type="button" appearance="flat" (click)="cancel()" size="m">
+    Отмена
+  </button>
+</app-page-header>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="form" novalidate>
+  <label class="field">
+    <span class="field__label">Название сервиса</span>
+    <input class="field__input" type="text" formControlName="name" required />
+    @if (form.controls.name.touched && form.controls.name.invalid) {
+      <span class="field__error">Минимум 2 символа</span>
+    }
+  </label>
+
+  <div class="field__row">
+    <label class="field">
+      <span class="field__label">Стоимость</span>
+      <input
+        class="field__input"
+        type="number"
+        formControlName="price"
+        min="0"
+        step="0.01"
+        required
+      />
+      @if (form.controls.price.touched && form.controls.price.invalid) {
+        <span class="field__error">Введите цену больше 0</span>
+      }
+    </label>
+
+    <label class="field">
+      <span class="field__label">Валюта</span>
+      <select class="field__select" formControlName="currency">
+        @for (c of currencies; track c) {
+          <option [value]="c">{{ c }}</option>
+        }
+      </select>
+    </label>
+  </div>
+
+  <div class="field__row">
+    <label class="field">
+      <span class="field__label">Категория</span>
+      <select class="field__select" formControlName="category">
+        @for (c of categories(); track c.id) {
+          <option [value]="c.id">{{ c.label }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="field">
+      <span class="field__label">Периодичность</span>
+      <select class="field__select" formControlName="periodicity">
+        @for (p of periodicities; track p) {
+          <option [value]="p">{{ periodicityLabel(p) }}</option>
+        }
+      </select>
+    </label>
+  </div>
+
+  <div class="field__row">
+    <label class="field">
+      <span class="field__label">Дата следующего платежа</span>
+      <input class="field__input" type="date" formControlName="nextPaymentDate" required />
+    </label>
+
+    <label class="field">
+      <span class="field__label">Уведомить за N дней</span>
+      <input
+        class="field__input"
+        type="number"
+        formControlName="notifyDaysBefore"
+        min="0"
+        max="60"
+      />
+    </label>
+  </div>
+
+  <label class="field__check">
+    <input type="checkbox" formControlName="isActive" />
+    <span>Подписка активна</span>
+  </label>
+
+  <label class="field">
+    <span class="field__label">Заметка (опционально)</span>
+    <textarea class="field__textarea" formControlName="notes" rows="3"></textarea>
+  </label>
+
+  <div class="form__actions">
+    <button tuiButton type="submit" size="l" [disabled]="loading()">
+      {{ isEdit() ? 'Сохранить' : 'Создать' }}
+    </button>
+    <button tuiButton type="button" appearance="flat" (click)="cancel()" size="l">
+      Отмена
+    </button>
+  </div>
+</form>

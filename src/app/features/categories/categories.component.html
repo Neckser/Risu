@@ -1,0 +1,54 @@
+<app-page-header
+  title="Категории"
+  subtitle="Установите лимиты, чтобы контролировать расходы"
+/>
+
+<ul class="cats" aria-label="Список категорий">
+  @for (vm of viewModel(); track vm.category.id) {
+    <li class="cat" [class.cat--exceeded]="vm.exceeded">
+      <header class="cat__head">
+        <div class="cat__title">
+          <tui-icon [icon]="vm.category.icon" class="cat__icon" />
+          <span class="cat__name">{{ vm.category.label }}</span>
+          <span class="cat__count">{{ vm.count }} активных</span>
+        </div>
+        <div class="cat__total">
+          {{ vm.monthly | currency: 'RUB' : 'symbol-narrow' : '1.0-0' }} / мес
+        </div>
+      </header>
+
+      @if (vm.limit != null) {
+        <div
+          class="cat__bar"
+          [attr.aria-label]="'Использование лимита: ' + (vm.ratio * 100 | number: '1.0-0') + '%'"
+        >
+          <div
+            class="cat__bar-fill"
+            [style.width.%]="(vm.ratio * 100) > 100 ? 100 : vm.ratio * 100"
+            [class.cat__bar-fill--danger]="vm.exceeded"
+          ></div>
+        </div>
+
+        @if (vm.exceeded) {
+          <p class="cat__warn" role="alert">
+            <tui-icon icon="@tui.alert-triangle" />
+            Превышение лимита
+            {{ (vm.monthly - vm.limit) | currency: 'RUB' : 'symbol-narrow' : '1.0-0' }}
+          </p>
+        }
+      }
+
+      <label class="field">
+        <span class="field__label">Лимит в месяц (₽)</span>
+        <input
+          class="field__input"
+          type="number"
+          min="0"
+          step="100"
+          [value]="vm.limit ?? ''"
+          (change)="setLimit(vm.category.id, $any($event.target).value)"
+        />
+      </label>
+    </li>
+  }
+</ul>

@@ -1,0 +1,92 @@
+<app-page-header title="Дашборд" [subtitle]="user()?.name ?? 'Добро пожаловать'">
+  <a tuiButton routerLink="/subscriptions/new" size="m">
+    <tui-icon icon="@tui.plus" />
+    Добавить подписку
+  </a>
+</app-page-header>
+
+<section class="stats" aria-label="Сводная статистика">
+  <app-stat-card label="Расход в месяц" icon="@tui.calendar" [hint]="active().length + ' активных подписок'">
+    {{ totalMonthly() | currency: 'RUB' : 'symbol-narrow' : '1.0-0' }}
+  </app-stat-card>
+
+  <app-stat-card label="Расход в год" icon="@tui.trending-up">
+    {{ totalYearly() | currency: 'RUB' : 'symbol-narrow' : '1.0-0' }}
+  </app-stat-card>
+
+  <app-stat-card
+    label="Скоро списания"
+    icon="@tui.bell"
+    [hint]="upcoming().length === 0 ? 'нет в ближайшее время' : null"
+  >
+    {{ upcoming().length }}
+  </app-stat-card>
+
+  <app-stat-card
+    label="Превышение лимита"
+    icon="@tui.alert-triangle"
+    [hint]="overLimitCount() === 0 ? 'все категории в норме' : null"
+  >
+    {{ overLimitCount() }}
+  </app-stat-card>
+</section>
+
+<div class="grid">
+  <section class="panel" aria-labelledby="upcoming-heading">
+    <div class="panel__head">
+      <h2 id="upcoming-heading" class="panel__title">Ближайшие списания</h2>
+      <a routerLink="/subscriptions" class="panel__link">Все подписки →</a>
+    </div>
+
+    @if (upcoming().length === 0) {
+      <p class="panel__empty">В ближайшие дни нет запланированных списаний.</p>
+    } @else {
+      <ul class="upcoming">
+        @for (item of upcoming(); track item.subscriptionId) {
+          <li class="upcoming__row">
+            <span class="upcoming__avatar" aria-hidden="true">
+              {{ item.name.charAt(0).toUpperCase() }}
+            </span>
+            <div class="upcoming__info">
+              <div class="upcoming__name">{{ item.name }}</div>
+              <div class="upcoming__meta">
+                @if (item.daysLeft === 0) {
+                  Сегодня
+                } @else if (item.daysLeft === 1) {
+                  Завтра
+                } @else {
+                  Через {{ item.daysLeft }} дн.
+                }
+              </div>
+            </div>
+            <div class="upcoming__price">
+              {{ item.amount | currency: item.currency : 'symbol-narrow' : '1.0-2' }}
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+
+  <section class="panel" aria-labelledby="top-cat-heading">
+    <div class="panel__head">
+      <h2 id="top-cat-heading" class="panel__title">Топ категорий</h2>
+      <a routerLink="/categories" class="panel__link">Управление →</a>
+    </div>
+
+    @if (topCategories().length === 0) {
+      <p class="panel__empty">Добавьте первую подписку, чтобы увидеть распределение.</p>
+    } @else {
+      <ul class="categories">
+        @for (entry of topCategories(); track entry[0]) {
+          <li class="categories__row">
+            <span class="categories__label">{{ entry[0] | categoryLabel: categories() }}</span>
+            <span class="categories__value">
+              {{ entry[1] | currency: 'RUB' : 'symbol-narrow' : '1.0-0' }} / мес
+            </span>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+</div>
