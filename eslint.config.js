@@ -7,6 +7,17 @@ const prettier = require('eslint-config-prettier');
 
 module.exports = tseslint.config(
   {
+    ignores: [
+      'dist/**',
+      'node_modules/**',
+      '.angular/**',
+      'coverage/**',
+      'playwright-report/**',
+      'test-results/**',
+      'out-tsc/**',
+    ],
+  },
+  {
     files: ['**/*.ts'],
     extends: [
       eslint.configs.recommended,
@@ -14,7 +25,6 @@ module.exports = tseslint.config(
       ...tseslint.configs.stylistic,
     ],
     plugins: { '@angular-eslint': angular },
-    processor: angular.processInlineTemplates,
     rules: {
       '@angular-eslint/directive-selector': [
         'error',

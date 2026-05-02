@@ -9,7 +9,20 @@
     "color-function-notation": "modern",
     "scss/no-global-function-names": null,
     "no-empty-source": null,
-    "comment-empty-line-before": null
+    "comment-empty-line-before": null,
+    "media-feature-range-notation": null,
+    "rule-empty-line-before": null,
+    "declaration-block-single-line-max-declarations": null,
+    "declaration-block-no-redundant-longhand-properties": null
   },
-  "ignoreFiles": ["**/*.ts", "**/*.html", "node_modules/**", "dist/**"]
+  "ignoreFiles": [
+    "**/*.ts",
+    "**/*.html",
+    "node_modules/**",
+    "dist/**",
+    ".angular/**",
+    "coverage/**",
+    "playwright-report/**",
+    "test-results/**"
+  ]
 }

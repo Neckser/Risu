@@ -7,31 +7,19 @@
     "start": "ng serve",
     "build": "ng build",
     "build:prod": "ng build --configuration=production",
+    "build:gh-pages": "ng build --configuration=production --base-href=/risu/",
+    "postbuild:gh-pages": "node scripts/spa-fallback.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "lint": "eslint \"src/**/*.{ts,html}\"",
-    "lint:fix": "eslint \"src/**/*.{ts,html}\" --fix",
+    "lint": "eslint \"src/**/*.{ts,html}\" \"e2e/**/*.ts\"",
+    "lint:fix": "eslint \"src/**/*.{ts,html}\" \"e2e/**/*.ts\" --fix",
     "lint:styles": "stylelint \"src/**/*.{scss,css}\"",
     "lint:styles:fix": "stylelint \"src/**/*.{scss,css}\" --fix",
     "format": "prettier --write \"src/**/*.{ts,html,scss,json}\"",
     "format:check": "prettier --check \"src/**/*.{ts,html,scss,json}\""
-  },
-  "prettier": {
-    "printWidth": 100,
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "all",
-    "overrides": [
-      {
-        "files": "*.html",
-        "options": {
-          "parser": "angular"
-        }
-      }
-    ]
   },
   "private": true,
   "packageManager": "npm@10.9.3",
