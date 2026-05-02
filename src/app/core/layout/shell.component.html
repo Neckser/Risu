@@ -1,0 +1,49 @@
+<div class="shell">
+  <aside class="shell__sidebar" aria-label="Главная навигация">
+    <div class="shell__brand">
+      <tui-icon icon="@tui.wallet" class="shell__brand-icon" />
+      <span class="shell__brand-text">Risu</span>
+    </div>
+
+    <nav class="shell__nav">
+      @for (link of nav; track link.path) {
+        <a
+          [routerLink]="link.path"
+          routerLinkActive="shell__nav-link--active"
+          class="shell__nav-link"
+        >
+          <tui-icon [icon]="link.icon" />
+          <span>{{ link.label }}</span>
+          @if (link.path === '/dashboard' && upcomingCount() > 0) {
+            <tui-badge-notification class="shell__nav-badge" size="s">
+              {{ upcomingCount() }}
+            </tui-badge-notification>
+          }
+        </a>
+      }
+    </nav>
+
+    <div class="shell__user">
+      @if (user(); as u) {
+        <div class="shell__user-info">
+          <div class="shell__user-name">{{ u.name }}</div>
+          <div class="shell__user-email">{{ u.email }}</div>
+        </div>
+      }
+      <button
+        tuiButton
+        type="button"
+        appearance="secondary"
+        size="s"
+        (click)="logout()"
+        aria-label="Выйти из аккаунта"
+      >
+        Выйти
+      </button>
+    </div>
+  </aside>
+
+  <main class="shell__main" id="main-content">
+    <router-outlet />
+  </main>
+</div>

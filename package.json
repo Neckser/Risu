@@ -1,16 +1,29 @@
 {
   "name": "risu",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "Менеджер подписок и регулярных платежей на Angular 21 + Taiga UI",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test --watch=false",
+    "test:watch": "ng test",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "lint": "eslint \"src/**/*.{ts,html}\"",
+    "lint:fix": "eslint \"src/**/*.{ts,html}\" --fix",
+    "lint:styles": "stylelint \"src/**/*.{scss,css}\"",
+    "lint:styles:fix": "stylelint \"src/**/*.{scss,css}\" --fix",
+    "format": "prettier --write \"src/**/*.{ts,html,scss,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,html,scss,json}\""
   },
   "prettier": {
     "printWidth": 100,
     "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
     "overrides": [
       {
         "files": "*.html",
@@ -55,14 +68,25 @@
     "zone.js": "^0.16.1"
   },
   "devDependencies": {
+    "@angular-eslint/builder": "^21.0.0",
+    "@angular-eslint/eslint-plugin": "^21.0.0",
+    "@angular-eslint/eslint-plugin-template": "^21.0.0",
+    "@angular-eslint/template-parser": "^21.0.0",
     "@angular/build": "^21.1.5",
     "@angular/cli": "^21.1.5",
     "@angular/compiler-cli": "^21.1.0",
+    "@playwright/test": "^1.49.0",
     "@types/node": "^25.6.0",
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^10.0.1",
     "jsdom": "^27.1.0",
     "less": "^4.6.4",
     "less-loader": "^12.3.2",
+    "prettier": "^3.4.2",
+    "stylelint": "^16.13.2",
+    "stylelint-config-standard-scss": "^14.0.0",
     "typescript": "~5.9.2",
+    "typescript-eslint": "^8.20.0",
     "vitest": "^4.0.8"
   }
 }
