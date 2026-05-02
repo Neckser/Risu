@@ -7,7 +7,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:prod": "ng build --configuration=production",
-    "build:gh-pages": "ng build --configuration=production --base-href=/risu/",
+    "build:gh-pages": "ng build --configuration=production --base-href=/Risu/",
     "postbuild:gh-pages": "node scripts/spa-fallback.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test --watch=false",
